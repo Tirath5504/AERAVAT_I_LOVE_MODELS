@@ -1,0 +1,27 @@
+
+PS Specific Features: 
+
+Train teachers to teach disabled children
+
+Providing teachers through online platform
+
+Solving issue of shortage of physical resources (classrooms, books, etc.)
+
+Protect female students by detecting hate speech in chat room
+
+Supporting deserving female students
+
+Downloadable content for students with inconsistent connectivity
+
+Tie-ups with universities, recruit their students to teach, they will give money and in return they get experience
+
+
+Tech Features:
+
+ML:
+
+Transcript Correction (Fix Grammar , Math Symbols , etc)
+Recommendation System (For Courses , Books , etc)
+Hate Speech Detection (For Chat Room)
+Face Detection (For Student)
+Note Generation (For Student)
