@@ -1,1 +1,73 @@
 ml/node_modules
+
+# Web
+
+# /web/web 
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/web/web/node_modules/
+/web/web/.pnp
+/web/web/.pnp.js
+/web/web/.yarn/install-state.gz
+
+# testing
+/web/web/coverage
+
+# next.js
+/web/web/.next/
+/web/web/out/
+
+# production
+/web/web/build
+
+# misc
+/web/web/.DS_Store
+/web/web/*.pem
+
+# debug
+/web/web/npm-debug.log*
+/web/web/yarn-debug.log*
+/web/web/yarn-error.log*
+
+# local env files
+/web/web/.env*.local
+/web/web/.env
+
+# vercel
+/web/web/.vercel
+
+# typescript
+/web/web/*.tsbuildinfo
+/web/web/next-env.d.ts
+
+# /web/smartboard
+
+# Logs
+/web/smartboard/logs
+/web/smartboard/*.log
+/web/smartboard/npm-debug.log*
+/web/smartboard/yarn-debug.log*
+/web/smartboard/yarn-error.log*
+/web/smartboard/pnpm-debug.log*
+/web/smartboard/lerna-debug.log*
+
+/web/smartboard/.yarn
+/web/smartboard/node_modules
+/web/smartboard/dist
+/web/smartboard/dist-ssr
+/web/smartboard/*.local
+
+# Editor directories and files
+/web/smartboard/.vscode/*
+/web/smartboard/!.vscode/extensions.json
+/web/smartboard/.idea
+/web/smartboard/.DS_Store
+/web/smartboard/*.suo
+/web/smartboard/*.ntvs*
+/web/smartboard/*.njsproj
+/web/smartboard/*.sln
+/web/smartboard/*.sw?
+
+/web/smartboard/dbDir

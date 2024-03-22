@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  Student
+  Teacher
+  Administrator
+}
+
+model Organization {
+  orgId    String
+  orgName  String
+  orgUsers User[]
+  orgClassrooms Classroom[]
+
+  @@id([orgId])
+}
+
+model User {
+  userId            String                @default(uuid())
+  userOrgId         String
+  userOrg           Organization          @relation(fields: [userOrgId], references: [orgId])
+  userName          String
+  userType          UserType
+  userPassword      String
+  userDisplayName   String
+  userReportTargets ReportTarget[]
+  userClassrooms    ClassroomEnrollment[]
+  attendedLectures  LectureAttendance[]
+  s3Requests        S3Request[]
+  quizAttempts      QuizAttempt[]
+  lectures          Lecture[]
+
+  @@id([userId])
+}
+
+model ReportTarget {
+  reportTargetId    String @default(uuid())
+  userId            String
+  reportUser        User   @relation(fields: [userId], references: [userId])
+  reportTargetEmail String
+
+  @@id([userId, reportTargetId])
+}
+
+model Classroom {
+  classroomId          String                @default(uuid())
+  classroomName        String
+  classroomOrgId       String
+  classroomOrg       Organization          @relation(fields: [classroomOrgId], references: [orgId])
+  classroomLectures    Lecture[]
+  classroomEnrollments ClassroomEnrollment[]
+
+  @@id([classroomId])
+}
+
+model ClassroomEnrollment {
+  userId            String
+  classroomId       String
+  enrolledClassroom Classroom @relation(fields: [classroomId], references: [classroomId])
+  enrolledUser      User      @relation(fields: [userId], references: [userId])
+
+  @@id([userId, classroomId])
+}
+
+model Lecture {
+  lectureId             String              @default(uuid())
+  title                 String
+  facultyUserId         String
+  facultyUser           User                @relation(fields: [facultyUserId], references: [userId])
+  lectureStartTimestamp DateTime
+  lectureEndTimestamp   DateTime
+  lectureClassroomId    String
+  lectureClassroom      Classroom           @relation(fields: [lectureClassroomId], references: [classroomId])
+  lectureAttendance     LectureAttendance[]
+  lectureTranscripts    LectureTranscript[]
+  lectureQuiz           Quiz[]
+  notes              Notes[]
+
+  @@id([lectureId])
+}
+
+model LectureAttendance {
+  lectureId       String
+  attendedLecture Lecture @relation(fields: [lectureId], references: [lectureId])
+  userId          String
+  attendingUser   User    @relation(fields: [userId], references: [userId])
+
+  @@id([userId, lectureId])
+}
+
+model LectureTranscript {
+  transcriptId       String  @default(uuid())
+  lectureId          String
+  transcribedLecture Lecture @relation(fields: [lectureId], references: [lectureId])
+  transcriptText     String
+
+  @@id([lectureId, transcriptId])
+}
+
+model Quiz {
+  quizId        String         @default(uuid())
+  quizName      String
+  lectureId     String
+  quizLecture   Lecture        @relation(fields: [lectureId], references: [lectureId])
+  quizQuestions QuizQuestion[]
+  quizAttempts  QuizAttempt[]
+
+  @@id([quizId])
+}
+
+model QuizQuestion {
+  questionId          String         @default(uuid())
+  quizId              String
+  questionParentQuiz  Quiz           @relation(fields: [quizId], references: [quizId])
+  questionText        String
+  questionOptions     String[]
+  questionAnswerIndex Int
+  questionResponses   QuizResponse[]
+
+  @@id([questionId])
+}
+
+model QuizAttempt {
+  attemptId        String         @default(uuid())
+  quizId           String
+  attemptedQuiz    Quiz           @relation(fields: [quizId], references: [quizId])
+  attemptTimestamp DateTime
+  userId           String
+  attemptUser      User           @relation(fields: [userId], references: [userId])
+  attemptResponses QuizResponse[]
+  attemptReport    QuizReport?
+
+  @@id([attemptId])
+}
+
+model QuizResponse {
+  responseId        String       @default(uuid())
+  attemptId         String
+  questionId        String
+  attemptedQuestion QuizQuestion @relation(fields: [questionId], references: [questionId])
+  responseAttempt   QuizAttempt  @relation(fields: [attemptId], references: [attemptId])
+  responseContent   String
+  responseAccuracy  Float
+
+  @@id([responseId])
+}
+
+model QuizReport {
+  reportId    String      @default(uuid())
+  attemptId   String      @unique
+  quizAttempt QuizAttempt @relation(fields: [attemptId], references: [attemptId])
+
+  @@id([reportId])
+}
+
+model Notes{
+  notesId    String @default(uuid())
+  notesContent  String
+  notesTitle String
+  lectureId String
+  notesLecture Lecture @relation(fields: [lectureId], references: [lectureId])
+
+  @@id([notesId])
+}
+// S3 Section
+enum S3RequestMethod {
+  GET
+  PUT
+  DELETE
+}
+
+model S3Object {
+  objectKey         String
+  objectFileName    String
+  objectSizeBytes   Int
+  objectContentType String
+  objectRequests    S3Request[]
+
+  @@id([objectKey])
+}
+
+model S3Request {
+  requestId     String          @default(uuid())
+  objectKey     String?
+  targetObject  S3Object?       @relation(fields: [objectKey], references: [objectKey])
+  requestMethod S3RequestMethod
+  requestUserId String?
+  requestUser   User?           @relation(fields: [requestUserId], references: [userId])
+
+  @@id([requestId])
+}
