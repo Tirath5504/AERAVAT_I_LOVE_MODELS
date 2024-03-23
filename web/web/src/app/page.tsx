@@ -21,7 +21,7 @@ export default function Home() {
       <div className=" flex flex-col justify-center z-20 items-center ">
         
         <div className=" justify-center items-center flex flex-col">
-        <h2 className=" w-full text-lg text-end font-extrabold py-2 px-4 rounded-lg bg-slate-50 text-zinc-950">by i_love_models</h2>
+        {/* <h2 className=" w-full text-lg text-end font-extrabold py-2 px-4 rounded-lg bg-slate-50 text-zinc-950">by i_love_models</h2> */}
         <h1 className=" text-9xl font-black text-slate-50  text-center">
           Your education <br /> is our priority
         </h1>

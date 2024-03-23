@@ -1,24 +1,24 @@
 "use client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "./ui/card"
+import {Label} from "./ui/label"
+import {Input} from "./ui/input"
 import Link from "next/link"
-import { Checkbox } from "./ui/checkbox"
-import { Button } from "./ui/button"
-import { useState } from "react"
-import { toast } from "sonner"
+import {Checkbox} from "./ui/checkbox"
+import {Button} from "./ui/button"
+import {useState} from "react"
+import {toast} from "sonner"
 import store from "../lib/zustand"
 
-import { useRouter } from "next/navigation"
+import {useRouter} from "next/navigation"
 
 export default function Login() {
 	const [name, setName] = useState("")
 	const [password, setPassword] = useState("")
-	const { setAuth } = store()
+	const {setAuth} = store()
 
 	const router = useRouter()
 
-	const handleLogin = async (e: any) => {
+	const handleLogin = async (e : any) => {
 		e.preventDefault()
 		if (password.length < 6) {
 			toast("Password should be atleast 6 characters long")
@@ -34,7 +34,7 @@ export default function Login() {
 			headers: {
 				"Content-type": "application/json"
 			},
-			body: JSON.stringify({ userName: name, userPassword: password })
+			body: JSON.stringify({userName:name, userPassword:password})
 		})
 		const data = await res.json()
 		if (data.error || data.errors) {
@@ -60,7 +60,7 @@ export default function Login() {
 						<Label htmlFor="name">Name</Label>
 						<Input value={name} onChange={(e) => {
 							setName(e.target.value)
-						}} id="name" placeholder="Enter your name" required type="name" />
+						}} id="name" placeholder="Enter your name" required type="name"/>
 					</div>
 					<div className="relative space-y-2">
 						<div className="flex items-center">
@@ -71,10 +71,10 @@ export default function Login() {
 						</div>
 						<Input value={password} onChange={(e) => {
 							setPassword(e.target.value)
-						}} id="password" required type="password" placeholder="Enter your password" />
+						}} id="password" required type="password" placeholder="Enter your password"/>
 					</div>
 					<div className="flex items-center">
-						<Checkbox id="remember-me" />
+						<Checkbox id="remember-me"/>
 						<Label className="ml-2" htmlFor="remember-me">
 							Remember me
 						</Label>

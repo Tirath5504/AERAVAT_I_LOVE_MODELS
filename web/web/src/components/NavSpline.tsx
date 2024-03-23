@@ -6,3 +6,4 @@ export default function NavSpline() {
     <Spline scene="https://prod.spline.design/N2jrX8gfU2pSUppj/scene.splinecode" />
   );
 }
+

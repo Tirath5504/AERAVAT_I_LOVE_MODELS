@@ -42,7 +42,6 @@ export const POST = withMiddlewares<AuthLoginUserParams, AuthLoginUserBody>(
 			}
 
 			const authJWT = sign(authUser, process.env.JWT_SECRET || FALLBACK_JWT_SECRET)
-
 			res.setHeader("Set-Cookie", `auth-token=${authJWT};path=/`)
 
 			res.status(200).json({

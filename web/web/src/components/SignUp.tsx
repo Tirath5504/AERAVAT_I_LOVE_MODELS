@@ -24,22 +24,25 @@ export default function SignUp() {
       toast("Name should be atleast 3 characters long")
       return
     }
-    if (type==="Select Type") {
+    if (type === "Select Type") {
       toast("Enter a valid type")
       return
     }
     console.log(type, password, name)
     const url = process.env.NEXT_PUBLIC_BACKEND_URL
+    console.log(url);
     //userDisplayName", "userPassword", "userType", "userName"
     const res = await fetch(`/api/orgs/test/auth/signup`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({ userDisplayName: name, userName: name, userPassword: password, userType: type})
+      body: JSON.stringify({ userDisplayName: name, userName: name, userPassword: password, userType: type })
     })
+    console.log(res);
     const data = await res.json()
-    if (data.error || data.errors) {
+    console.log(data);
+    if (data.responseStatus!=='SUCCESS') {
       console.log(data.error)
       toast(data.error.length > 0 ? data.error : "An error occured")
     } else {

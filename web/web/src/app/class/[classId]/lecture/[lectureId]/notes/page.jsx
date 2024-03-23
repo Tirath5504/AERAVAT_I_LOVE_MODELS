@@ -5,10 +5,11 @@ import Output from "./components/Output"
 import Canvas from "./components/Canvas"
 import html2canvas from 'html2canvas';
 import "./index.css"
+import {toast} from "sonner";
 import LoadingScreen from '@/app/loading'
 
-export default function page({params: {lectureId, classId}}) {
-    const [loading, setloading] = useState(true)
+export default function page({ params: { lectureId, classId } }) {
+  const [loading, setloading] = useState(true)
   const addFunctionality = () => {
     // const localPreference = typeof (window) !== "undefined" ? window.localStorage.getItem('prefers-theme') : 'dark';
     // if (localPreference) {
@@ -727,22 +728,42 @@ export default function page({params: {lectureId, classId}}) {
     }
     // await getNotes()
   }
+  const url = process.env.NEXT_PUBLIC_FLASK_URL
+  const textToNotes = async (text) => {
+    console.log(url);
+    try {
+      const res = await fetch(`${url}/textToNotes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: text })
+      })
+      const result = await res.json()
+      console.log(result);
+      const canv = document.getElementById('note');
+      canv.innerText = result;
+
+    } catch (err) {
+      console.log(err);
+      toast("Something Went Wrong!");
+    }
+    setloading(false)
+  }
 
   const getNotes = async () => {
     const res = await fetch(`/api/orgs/test/classroom/${classId}/lecture/${lectureId}/transcript`)
     const data = await res.json()
     console.log(data)
-    if(res.status !== 200) return alert('Error fetching data')
+    if (res.status !== 200) return alert('Error fetching data')
     const transcripts = []
-    for (const i in data.transcripts){
+    for (const i in data.transcripts) {
       transcripts.push(data.transcripts[i].transcriptText)
     }
     const result = transcripts.join(' ')
     document.getElementById('homework').style.display = 'block';
     document.getElementById('outputContainer').style.display = 'block';
-      const canv = document.getElementById('note');
-      canv.innerText = result;
-      setloading(false)
+    textToNotes(result)
   }
   let ctr = 1
   useEffect(() => {
@@ -754,14 +775,14 @@ export default function page({params: {lectureId, classId}}) {
   }, [])
   return (
     <>
-    {loading && <LoadingScreen/>}
-    <div className=' flex flex-col px-12 min-h-screen' style={{display:loading?"none":"block"}}>
-        <Navbar/>
+      {loading && <LoadingScreen />}
+      <div className=' flex flex-col px-12 min-h-screen' style={{ display: loading ? "none" : "block" }}>
+        <Navbar />
         <div className=' flex flex-col py-2'>
-          <Canvas/>
-          <Output/>
+          <Canvas />
+          <Output />
         </div>
-    </div>
+      </div>
     </>
   )
 }
