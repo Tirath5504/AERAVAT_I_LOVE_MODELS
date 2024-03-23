@@ -10,7 +10,7 @@ google.discoverAPI(DISCOVERY_URL)
     .then(client => {
       const analyzeRequest = {
         comment: {
-          text: 'i hope you die nigger',
+          text: 'girls are not smart',
         },
         requestedAttributes: {
           TOXICITY: {},
