@@ -41,12 +41,12 @@ export default function Navbar() {
                 <Link href="/class" className=" py-2 px-3 md:px-6 lg:px-8 rounded-full text-nowrap hover:dark:bg-slate-200 hover:bg-zinc-800 transition-all">
                     Classrooms
                 </Link>
-                <Link href="/notes" className=" py-2 px-3 md:px-6 lg:px-8 rounded-full text-nowrap hover:dark:bg-slate-200 hover:bg-zinc-800 transition-all">
+                {/* <Link href="/notes" className=" py-2 px-3 md:px-6 lg:px-8 rounded-full text-nowrap hover:dark:bg-slate-200 hover:bg-zinc-800 transition-all">
                     Notes
                 </Link>
                 <Link href="/quiz" className=" py-2 px-3 md:px-6 lg:px-8 rounded-full text-nowrap hover:dark:bg-slate-200 hover:bg-zinc-800 transition-all">
                     Quizzes
-                </Link>
+                </Link> */}
             </nav>
             <button onClick={() => { handleLogout() }} className=" hidden md:block px-6 py-3 rounded-full transition-all hover:bg-slate-100 border dark:border-slate-50 border-zinc-900 hover:dark:bg-zinc-900 dark:bg-slate-100 bg-zinc-900 text-slate-50 dark:text-zinc-950 hover:dark:text-slate-50 hover:text-zinc-950">
                 Log out

@@ -143,6 +143,17 @@ def textToNotes():
     else:
         return "Request body is not in JSON format", 400
 
+@app.route('/getBooks')
+def getBooks():
+    studentId = "278418"
+    client = Client("Tirath5504/aeravat-recommendation-engine")
+    result = client.predict(
+            studentId,	# str in 'Enter User ID' Textbox component
+            api_name="/predict"
+    )
+    data = result['data']
+    return jsonify({"responseStatus":"SUCCESS","data":data})
+
 
 @app.route('/addRating', methods=['POST'])
 def addRating():
